@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException  ,HttpException , HttpStatus} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 // import {Repository}
 import { Model } from 'mongoose';
@@ -9,6 +9,11 @@ export class UsersService {
   constructor(@InjectModel('User') private userModel: Model<User>) {}
 
   async createUser(username: string, email: string, password: string) {
+
+    const userExist = this.userModel.findOne({ email });
+    if(userExist){
+      throw new HttpException('user already exist', HttpStatus.FORBIDDEN )
+    }
     const newUser = new this.userModel({
       username,
       email,
