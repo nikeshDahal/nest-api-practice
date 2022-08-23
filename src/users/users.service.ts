@@ -9,11 +9,6 @@ export class UsersService {
   constructor(@InjectModel('User') private userModel: Model<User>) {}
 
   async createUser(username: string, email: string, password: string) {
-
-    const userExist = this.userModel.findOne({ email });
-    if(userExist){
-      throw new HttpException('user already exist', HttpStatus.FORBIDDEN )
-    }
     const newUser = new this.userModel({
       username,
       email,
@@ -21,6 +16,10 @@ export class UsersService {
     });
     const user = await newUser.save();
     return user;
+  }
+
+  async find(email:string){
+    return await this.userModel.find({email});
   }
 
   async findOne(id: string) {
