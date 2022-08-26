@@ -1,12 +1,13 @@
-import { Injectable  , BadRequestException, NotFoundException} from "@nestjs/common";
-import { UsersService } from "./users.service";
+import { Injectable , BadRequestException , NotFoundException} from '@nestjs/common';
 import { randomBytes , scrypt as _scrypt } from "crypto";
+import { UserDto } from 'src/users/dtos/user.dto';
+import { UsersService } from 'src/users/users.service';
 import { promisify } from "util";
 
 const scrypt = promisify(_scrypt)
 @Injectable()
 export class AuthService {
-    constructor(private userService :UsersService ){}
+    constructor( private userService : UsersService){}
 
     async signup( email : string , password:string , username: string){
 

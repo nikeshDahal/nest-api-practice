@@ -7,38 +7,37 @@ import {
   Delete,
   Patch,
   NotFoundException,
-  UseInterceptors,
-  ClassSerializerInterceptor,
 } from '@nestjs/common';
 
-import { CreateUserDto } from './dtos/create-user.dto';
+// import { CreateUserDto } from '../auth/dto/create-user.dto';
 import { UpdateUserDto } from './dtos/update-user.dto';
 import { UsersService } from './users.service';
 import { serialize } from 'src/interceptors/serialize.interceptor';
 import { UserDto } from './dtos/user.dto';
-import { AuthService } from './auth.service';
+// import { AuthService } from 'src/auth/auth.service';
+
 
 @Controller('auth')
 @serialize(UserDto)
 export class UsersController {
   constructor(
     private usersService: UsersService,
-    private authService: AuthService,
+    // private authService: AuthService,
   ) {}
-  @Post('/signup')
-  async createUser(@Body() body: CreateUserDto) {
-    const user = await this.authService.signup(
-      body.email,
-      body.password,
-      body.username,
-    );
-    return user;
-  }
+  // @Post('/signup')
+  // async createUser(@Body() body: CreateUserDto) {
+  //   const user = await this.authService.signup(
+  //     body.email,
+  //     body.password,
+  //     body.username,
+  //   );
+  //   return user;
+  // }
 
-  @Post('/signin')
-  async signin(@Body() body:CreateUserDto){
-    return this.authService.signin(body.email, body.username, body.password);
-  }
+  // @Post('/signin')
+  // async signin(@Body() body:CreateUserDto){
+  //   return this.authService.signin(body.email, body.username, body.password);
+  // }
 
   // @UseInterceptors( new SeralizeInterceptor(UserDto))
 
