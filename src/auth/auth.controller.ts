@@ -11,22 +11,22 @@ export class AuthController {
     constructor(private authService : AuthService ){}
     
     @Post('local/signin')
-    signin(@Body() body:CreateUserDto){
-        return this.authService.signin(
+     async signin(@Body() body:CreateUserDto){
+        const [user,tokens]= await this.authService.signin(
             body.email,
             body.password,
             body.username,
         );
+        return [user,tokens]
     }
 
     @Post('local/signup')
-    signup(@Body() body:CreateUserDto){
-        return this.authService.signup(
+    async signup(@Body() body:CreateUserDto){
+        const {user,tokens}= await  this.authService.signup(
             body.email,
             body.password,
             body.username,
         )
+        return[user,tokens]
     }
-
-
 }

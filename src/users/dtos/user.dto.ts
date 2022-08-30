@@ -10,4 +10,12 @@ export class UserDto {
 
     @Expose()
     username:string;
+
+    // @Expose()
+    // tokens:[
+    //     {
+    //     _id:string,
+    //     token:string
+    //     }
+    // ]
 }

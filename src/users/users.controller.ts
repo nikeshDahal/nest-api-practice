@@ -7,6 +7,8 @@ import {
   Delete,
   Patch,
   NotFoundException,
+  UseGuards,
+  Request
 } from '@nestjs/common';
 
 // import { CreateUserDto } from '../auth/dto/create-user.dto';
@@ -14,37 +16,24 @@ import { UpdateUserDto } from './dtos/update-user.dto';
 import { UsersService } from './users.service';
 import { serialize } from 'src/interceptors/serialize.interceptor';
 import { UserDto } from './dtos/user.dto';
+import { AuthGuard } from '@nestjs/passport';
+import { currentUser } from 'src/auth/currentUser';
 // import { AuthService } from 'src/auth/auth.service';
 
 
 @Controller('auth')
 @serialize(UserDto)
+@UseGuards(AuthGuard('jwt'))
 export class UsersController {
   constructor(
     private usersService: UsersService,
     // private authService: AuthService,
   ) {}
-  // @Post('/signup')
-  // async createUser(@Body() body: CreateUserDto) {
-  //   const user = await this.authService.signup(
-  //     body.email,
-  //     body.password,
-  //     body.username,
-  //   );
-  //   return user;
-  // }
 
-  // @Post('/signin')
-  // async signin(@Body() body:CreateUserDto){
-  //   return this.authService.signin(body.email, body.username, body.password);
-  // }
 
-  // @UseInterceptors( new SeralizeInterceptor(UserDto))
-
-  @Get('/:id')
-  async findUser(@Param('id') id: string) {
-    console.log('running ....');
-    const user = await this.usersService.findOne(id);
+  @Get()
+  async getMyProfile(@currentUser() req:any) {
+    const user = await this.usersService.findOne(req._id);
     if (!user) {
       throw new NotFoundException('user not found');
     }
@@ -52,7 +41,8 @@ export class UsersController {
   }
 
   @Get()
-  async findAllUsers() {
+  async findAllUsers(@Request() req:any) {
+    console.log('find all users :', req.user)
     return await this.usersService.findAll();
   }
 

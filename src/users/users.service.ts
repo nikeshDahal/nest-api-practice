@@ -8,17 +8,23 @@ var mongoose = require('mongoose');
 export class UsersService {
   constructor(@InjectModel('User') private userModel: Model<User>) {}
 
-  async createUser(username: string, email: string, password: string) {
+  async createUser(username: string, email: string, password: string ) {
     const newUser = new this.userModel({
       username,
       email,
       password,
+      // tokens:[
+      //   {
+      //     token:tokens
+      //   }
+      // ]
     });
     const user = await newUser.save();
     return user;
+   
   }
 
-  async find(email:string){
+  async findByEmail(email:string){
     return await this.userModel.find({email});
   }
 
