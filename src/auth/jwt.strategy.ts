@@ -16,7 +16,7 @@ export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
     });
   }
   async validate(payload: any) {
-    const currentUser = await this.userService.findByEmail(payload.email)
+    const currentUser = await this.userService.findOne(payload.email)
     if(!currentUser){
       throw new UnauthorizedException("error in getting current user");
     }

@@ -13,7 +13,7 @@ import { AuthModule } from './auth/auth.module';
 @Module({
   imports: [
     UsersModule,
-    MongooseModule.forRoot('mongodb://localhost:27017/car-api'),
+    MongooseModule.forRoot('mongodb://localhost:27017/nest-api'),
     AuthModule,
   ],
   controllers: [AppController],
